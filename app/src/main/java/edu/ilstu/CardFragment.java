@@ -14,6 +14,7 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -31,6 +32,7 @@ public class CardFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if(questions.isEmpty()) {
+            Log.i("aramsey", "called initialize list");
             initializeList();
         }
         getActivity().setTitle("Bluetooth Popup Quiz - Student");
@@ -82,7 +84,7 @@ public class CardFragment extends Fragment {
         int i = 0;
         try {
             BufferedReader in;
-            final String filePath = Environment.getExternalStorageDirectory().getPath() + "/wadus.txt";
+            final String filePath = Environment.getExternalStorageDirectory().getPath() + "/bluetooth/wadus.txt";
             FileReader fileReader = new FileReader(filePath);
             in = new BufferedReader(fileReader);
             questionStrings.add(in.readLine());
@@ -92,6 +94,9 @@ public class CardFragment extends Fragment {
             }
             questionStrings.remove(i);
             in.close();
+            Log.i("aramsey", "file read");
+            File file = new File(filePath);
+            file.delete();
         }
         catch (FileNotFoundException e) {
             e.printStackTrace();
