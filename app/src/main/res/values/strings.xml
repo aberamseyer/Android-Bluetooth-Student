@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Bluetooth Popup Quiz - Student</string>
+    <string name="send_to">Share</string>
+    <string name="blu_notfound_inlist">No bluetooth shareable apps found</string>
+    <string name="title_activity_add_question">AddQuestionActivity</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="file_permission_denied">Cannot send quiz without permission</string>
+    <string name="enter_text">Type Answer Here. (160 Character Max)</string>
+</resources>
