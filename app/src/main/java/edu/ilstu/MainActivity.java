@@ -29,6 +29,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
+import static edu.ilstu.CardFragment.customAdapter;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL = 0;
@@ -199,6 +201,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 sendIntent.setClassName(packageName, className);
                 startActivity(sendIntent);
                 Log.i("aramsey", "supposedly sent the file");
+                CardFragment.questions.clear();
+                CardFragment.initializeList();
+                CardFragment.customAdapter.notifyDataSetChanged();
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();

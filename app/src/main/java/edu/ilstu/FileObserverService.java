@@ -5,12 +5,15 @@ import android.content.Intent;
 import android.os.Environment;
 import android.os.FileObserver;
 import android.os.Handler;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import java.io.File;
 
+import static edu.ilstu.CardFragment.MyRecyclerView;
 import static edu.ilstu.CardFragment.customAdapter;
 
 /**
@@ -43,7 +46,7 @@ public class FileObserverService extends IntentService {
                 if(time - lastTime > 1000 && FileObserver.DELETE != event) {
                     Log.i(TAG, time + "    " + lastTime + ":    " + (time - lastTime));
                     Log.i(TAG, "close write");
-                    if(CardFragment.customAdapter != null)
+                    if(true)//CardFragment.customAdapter != null)
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
