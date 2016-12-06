@@ -52,6 +52,8 @@ public class SAQuestion {
         return selected;
     }
 
+
+    // We have a few different toString() methods for the various ways the questions/answers need to be formatted
     @Override
     public String toString() {
         return "" + question + "?\n";

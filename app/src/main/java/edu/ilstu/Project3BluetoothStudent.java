@@ -5,6 +5,7 @@ import android.content.Context;
 
 /**
  * Created by Abe on 12/3/2016.
+ * the only purpose of this class is so we can get some context wherever is necessary
  */
 
 public class Project3BluetoothStudent extends Application {

@@ -29,13 +29,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
-import static edu.ilstu.CardFragment.customAdapter;
-
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL = 0;
     private FloatingActionButton fab;
-    private FileObserver fileObserver;
+    private FileObserver fileObserver;  // the file observer needs a reference in the main thread to prevent it from being garbage collected
+    private static final String TAG = "debug";
 
 
     @Override
@@ -56,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Intent intent = new Intent(this, FileObserverService.class);
         startService(intent);
+        fileObserver = FileObserverService.fileObserver;
 
         FragmentManager fm = getSupportFragmentManager();
         Fragment fragment = fm.findFragmentById(R.id.fragmentContainer);
@@ -104,9 +104,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 return;
             }
-
-            // other 'case' lines to check for other
-            // permissions this app might request
         }
     }
 
@@ -123,12 +120,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         switch (v.getId()) {
             case R.id.fab:
-                Log.i("aramsey", "Big fab tapped");
+                Log.i(TAG, "Big fab tapped");
                 // Here, thisActivity is the current activity
                 sendQuestions(v);
                 break;
             default:
-                Log.i("aramsey", "idk what you tapped");
+                Log.i(TAG, "idk what you tapped");
                 break;
         }
     }
@@ -138,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Log.i("blutooth", "bt button tapped");
 
         BluetoothAdapter btAdapter = BluetoothAdapter.getDefaultAdapter();
-        Log.i("aramsey", btAdapter.toString());
+        Log.i(TAG, btAdapter.toString());
 
         Context staticContext = Project3BluetoothStudent.getAppContext();
         CardFragment.printItemsToLog();
@@ -176,6 +173,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             };
             fobsv.startWatching();
 
+
+            // This is the code that automatically finds the bluetooth package on the device and start the intent with it
             final PackageManager pm = staticContext.getPackageManager();
             List<ResolveInfo> appsList = pm.queryIntentActivities(sendIntent, 0);
 
@@ -200,7 +199,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 sendIntent.setClassName(packageName, className);
                 startActivity(sendIntent);
-                Log.i("aramsey", "supposedly sent the file");
+                Log.i(TAG, "supposedly sent the file");
+
+                // Clear the list after the answers are sent back
                 CardFragment.questions.clear();
                 CardFragment.initializeList();
                 CardFragment.customAdapter.notifyDataSetChanged();

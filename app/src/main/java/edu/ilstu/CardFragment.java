@@ -21,16 +21,18 @@ import java.util.ArrayList;
 
 public class CardFragment extends Fragment {
 
+    // please ignore all these global variables
     public static RecyclerView MyRecyclerView;
     public static int[] dataSetTypes;
     public static ArrayList<SAQuestion> questions = new ArrayList<SAQuestion>();
     public static CustomAdapter customAdapter;
+    private static final String TAG = "debug";
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if(questions.isEmpty()) {
-            Log.i("aramsey", "called initialize list");
+            Log.i(TAG, "called initialize list");
             initializeList();
         }
         getActivity().setTitle("Bluetooth Popup Quiz - Student");
@@ -72,6 +74,9 @@ public class CardFragment extends Fragment {
         ArrayList<String> questionStrings = new ArrayList<String>();
         String[] questionArray;
         int i = 0;
+
+        // Read from the file that is in the bluetooth directory, delete it when we're done
+        // to allow for receiving and reading a new set of questions
         try {
             BufferedReader in;
             final String filePath = Environment.getExternalStorageDirectory().getPath() + "/bluetooth/wadus.txt";
@@ -84,7 +89,7 @@ public class CardFragment extends Fragment {
             }
             questionStrings.remove(i);
             in.close();
-            Log.i("aramsey", "file read");
+            Log.i(TAG, "file read");
             File file = new File(filePath);
             file.delete();
         }
@@ -118,7 +123,7 @@ public class CardFragment extends Fragment {
     public static void printItemsToLog() {
         for (int i = 0; i < questions.size(); i++) {
             if (questions.get(i).getSelected())
-                Log.i("aramsey", questions.get(i).getReturnString());
+                Log.i(TAG, questions.get(i).getReturnString());
         }
     }
 }

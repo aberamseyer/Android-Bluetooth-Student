@@ -18,7 +18,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 /**
- * Created by emolu on 12/4/2016.
+ * Created by Michael McHugh on 12/4/2016.
  */
 
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
