@@ -10,23 +10,21 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.TextView;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
 
 public class CardFragment extends Fragment {
 
-    RecyclerView MyRecyclerView;
-    private int[] dataSetTypes;
+    public static RecyclerView MyRecyclerView;
+    public static int[] dataSetTypes;
     public static ArrayList<SAQuestion> questions = new ArrayList<SAQuestion>();
+    public static CustomAdapter customAdapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,6 +45,7 @@ public class CardFragment extends Fragment {
         MyRecyclerView.setHasFixedSize(true);
         LinearLayoutManager MyLayoutManager = new LinearLayoutManager(getActivity());
         MyLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+
         if (questions.size() > 0 & MyRecyclerView != null) {
             //Create an integer representation of the question types
             dataSetTypes = new int[questions.size()];
@@ -55,7 +54,8 @@ public class CardFragment extends Fragment {
                     dataSetTypes[i] = 1;
                 }
             }
-            MyRecyclerView.setAdapter(new CustomAdapter(questions, dataSetTypes));
+            customAdapter = new CustomAdapter(questions, dataSetTypes);
+            MyRecyclerView.setAdapter(customAdapter);
         }
         MyRecyclerView.setLayoutManager(MyLayoutManager);
 
@@ -67,18 +67,8 @@ public class CardFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
     }
 
-//    public void initializeList() {
-//        questions.clear();
-//        // Predefined multiple-choice questions + any others added
-//        questions.add(new MCQuestion("What grade do you plan to get in this class?", "A", "B", "C", "D", "a"));
-//        questions.add(new MCQuestion("What is your favorite color", "Red", "Green", "Blue", "none of these", "c"));
-//        questions.add(new MCQuestion("how old are you", "18", "19", "20", "21", "b"));
-//        questions.add(new MCQuestion("What is your major?", "Computer Science", "IS", "Something else", "not sure yet", "a"));
-//        questions.add(new MCQuestion("What kind of housing do you live in?", "Dorm", "Apartment", "House", "I'm Homeless", "a"));
-//        questions.add(new SAQuestion("What is your name?"));
-//    }
 
-    public void initializeList() {
+    public static void initializeList() {
         ArrayList<String> questionStrings = new ArrayList<String>();
         String[] questionArray;
         int i = 0;
@@ -99,7 +89,6 @@ public class CardFragment extends Fragment {
             file.delete();
         }
         catch (FileNotFoundException e) {
-            e.printStackTrace();
         }
         catch (IOException e) {
             e.printStackTrace();
